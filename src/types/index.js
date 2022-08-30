@@ -4,51 +4,59 @@ const schema = gql`
   extend schema
     @link(
       url: "https://specs.apollo.dev/federation/v2.0"
-      import: ["@key", "@shareable"]
+      import: ["@key", "@shareable", "@tag", "@inaccessible"]
     )
 
   type Query {
-    orders: [Order]
-    order(id: ID!): Order
+    products: [ProductItf]
+    product(id: ID!): ProductItf
   }
 
-  type Mutation {
-    createOrder(order: OrderInput): Order
-  }
-
-  type User @key(fields: "id") {
+  interface ProductItf implements SkuItf {
     id: ID!
-    totalOrdersCreated: Int @shareable
+    sku: String
+    name: String
+    variation: ProductVariation
+    dimensions: ProductDimension
+    createdBy: User
+    hidden: String @inaccessible
   }
 
-  type Order @key(fields: "id") {
+  interface SkuItf {
+    sku: String
+  }
+
+  type Product implements ProductItf & SkuItf
+    @key(fields: "id")
+    @key(fields: "sku name")
+    @key(fields: "sku variation { id }") {
+    id: ID! @tag(name: "hi-from-products")
+    sku: String
+    name: String
+    variation: ProductVariation
+    dimensions: ProductDimension
+    createdBy: User
+    hidden: String
+    reviewsScore: Float!
+  }
+
+  enum ShippingClass {
+    STANDARD
+    EXPRESS
+  }
+
+  type ProductVariation {
     id: ID!
-    customerId: ID!
-    storeName: String
-    total: Float!
-    items: [OrderItem]
   }
 
-  type OrderItem {
-    id: ID!
-    productId: ID!
-    amount: Float!
-    price: Float!
-    total: Float!
+  type ProductDimension @shareable {
+    size: String
+    weight: Float
   }
 
-  input OrderInput {
-    customerId: ID!
-    storeName: String
-    total: Float!
-    items: [OrderItemInput]
-  }
-
-  input OrderItemInput {
-    productId: ID!
-    amount: Float!
-    price: Float!
-    total: Float!
+  type User @key(fields: "email") {
+    email: ID!
+    totalProductsCreated: Int @shareable
   }
 `
 
