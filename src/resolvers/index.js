@@ -1,14 +1,8 @@
+const { v4: uuidv4 } = require('uuid')
+
 const products = []
 
 const productResolvers = {
-  Query: {
-    allProducts: () => {
-      return products
-    },
-    product: (_, args) => {
-      return products.find((p) => p.id == args.id)
-    }
-  },
   ProductItf: {
     __resolveType() {
       return 'Product'
@@ -37,7 +31,26 @@ const productResolvers = {
       if (id) return products.find((p) => p.id == id)
       else if (sku && name)
         return products.find((p) => p.sku == sku && p.name == name)
-      else return { id: 'rover', name: 'my products', ...reference }
+      else return { id: '1', name: 'my products', ...reference }
+    }
+  },
+  Query: {
+    allProducts: () => {
+      return products
+    },
+    product: (_, args) => {
+      return products.find((p) => p.id == args.id)
+    }
+  },
+  Mutation: {
+    createProduct: (_, { product }) => {
+      const newProduct = {
+        ...product,
+        id: uuidv4()
+      }
+
+      products.push(newProduct)
+      return newProduct
     }
   }
 }
