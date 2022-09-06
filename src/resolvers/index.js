@@ -32,15 +32,12 @@ const productResolvers = {
       return 4.5
     },
     __resolveReference: (reference) => {
-      const { id, sku, package } = reference
+      const { id, sku, name } = reference
 
-      if (id) {
-        return products.find((p) => p.id == id)
-      } else if (sku && package) {
-        return products.find((p) => p.sku == sku && p.package == package)
-      } else {
-        return { id: 'rover', package: '@package', ...reference }
-      }
+      if (id) return products.find((p) => p.id == id)
+      else if (sku && name)
+        return products.find((p) => p.sku == sku && p.name == name)
+      else return { id: 'rover', name: 'my products', ...reference }
     }
   }
 }
