@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 
 const products = []
+const users = [{ email: 'augusto@test.com', totalProductsCreated: 0 }]
 
 const productResolvers = {
   ProductItf: {
@@ -10,17 +11,19 @@ const productResolvers = {
   },
   Product: {
     variation: (reference) => {
-      const { id, variation } = reference
+      const { id } = reference
 
-      if (variation) return { id: variation }
+      return { variation: products.find((p) => p.id == id).variation }
+    },
+    dimensions: (reference) => {
+      const { id } = reference
 
-      return { id: products.find((p) => p.id == id).variation }
+      return { dimensions: products.find((p) => p.id == id).dimensions }
     },
-    dimensions: () => {
-      return { size: '1', weight: 1 }
-    },
-    createdBy: () => {
-      return { email: 'augusto@test.com', totalProductsCreated: 1337 }
+    createdBy: (reference) => {
+      const { user } = reference
+
+      return users.find((u) => u.email === user.email)
     },
     reviewsScore: () => {
       return 4.5
@@ -35,7 +38,7 @@ const productResolvers = {
     }
   },
   Query: {
-    allProducts: () => {
+    products: () => {
       return products
     },
     product: (_, args) => {
@@ -44,8 +47,21 @@ const productResolvers = {
   },
   Mutation: {
     createProduct: (_, { product }) => {
+      const currentUser = users.find((u) => u.email === product.createdBy)
+      currentUser.totalProductsCreated += 1
+
+      users.splice(
+        users.findIndex((u) => u.email === product.email),
+        1,
+        currentUser
+      )
+
       const newProduct = {
         ...product,
+        variation: {
+          id: '1'
+        },
+        user: currentUser,
         id: uuidv4()
       }
 

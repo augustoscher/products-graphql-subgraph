@@ -12,6 +12,10 @@ const schema = gql`
     product(id: ID!): ProductItf
   }
 
+  type Mutation {
+    createProduct(product: ProductInput): Product
+  }
+
   interface ProductItf implements SkuItf {
     id: ID!
     sku: String
@@ -57,6 +61,14 @@ const schema = gql`
   type User @key(fields: "email") {
     email: ID!
     totalProductsCreated: Int @shareable
+  }
+
+  input ProductInput {
+    sku: String!
+    name: String!
+    createdBy: String!
+    hidden: String
+    reviewsScore: Float
   }
 `
 
