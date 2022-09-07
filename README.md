@@ -9,7 +9,11 @@ It's builded with [Apollo Federation](https://www.apollographql.com/docs/federat
 To run application, just type:
 
 ```
-yarn start
+yarn dev
+```
+or
+```
+make dev
 ```
 
 ## Docs
