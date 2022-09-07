@@ -4,7 +4,7 @@ const { buildSubgraphSchema } = require('@apollo/subgraph')
 const typeDefs = require('./types')
 const resolvers = require('./resolvers')
 
-const port = process.env.APOLLO_PORT || 4002
+const port = process.env.PORT || 4002
 
 const server = new ApolloServer({
   schema: buildSubgraphSchema({ typeDefs, resolvers })
