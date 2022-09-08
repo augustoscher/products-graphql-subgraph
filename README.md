@@ -16,6 +16,13 @@ or
 make dev
 ```
 
+## ToDo
+
+- Add Database
+- Add Makefile
+- Run on docker
+
+
 ## Docs
 [GraphQL Principle](https://principledgraphql.com/integrity#1-one-graph).
 
