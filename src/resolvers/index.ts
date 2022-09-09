@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 const products = [
   {
     id: '1',
@@ -40,10 +42,14 @@ export const resolvers = {
   },
   Mutation: {
     createProduct: (_, { product }) => {
+      product.id = uuidv4()
       products.push(product)
+      return product
     },
     createCategory: (_, { category }) => {
+      category.id = uuidv4()
       categories.push(category)
+      return category
     }
   }
 }
