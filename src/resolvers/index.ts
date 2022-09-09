@@ -19,7 +19,7 @@ const categories = [
 
 export const resolvers = {
   Product: {
-    category(product) {
+    category: (product) => {
       console.log(
         `resolving product category for product '${JSON.stringify(product)}'`
       )
