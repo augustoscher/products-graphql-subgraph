@@ -1,8 +1,8 @@
-const { ApolloServer } = require('apollo-server')
-const { buildSubgraphSchema } = require('@apollo/subgraph')
+import { ApolloServer } from 'apollo-server'
+import { buildSubgraphSchema } from '@apollo/subgraph'
 
-const typeDefs = require('./types')
-const resolvers = require('./resolvers')
+import typeDefs from './types'
+import resolvers from './resolvers'
 
 const port = process.env.PORT || 4002
 
