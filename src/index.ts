@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server'
 import { buildSubgraphSchema } from '@apollo/subgraph'
 
-import typeDefs from './types'
-import resolvers from './resolvers'
+import { typeDefs } from './types'
+import { resolvers } from './resolvers'
 
 const port = process.env.PORT || 4002
 
