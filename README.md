@@ -11,10 +11,12 @@ To run application, just type:
 ```
 yarn dev
 ```
-or
+or in docker:
 ```
 make dev
 ```
+
+Products GraphQL subgraph will be running on [localhost:4002/graphql](http://localhost:4002/graphql)
 
 ## ToDo
 
